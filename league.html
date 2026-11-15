@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyShoots® League — Preview</title>
+<style>
+  :root {
+    --forest: #12352B;
+    --moss: #1F5C3E;
+    --sage: #E8F0EC;
+    --gold: #B8860B;
+    --ink: #1B1F1D;
+    --muted: #5A6660;
+    --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--sage);
+    line-height: 1.5;
+  }
+  header {
+    background: var(--forest);
+    color: var(--white);
+    padding: 28px 24px;
+  }
+  header h1 { margin: 0 0 4px; font-size: 1.8rem; }
+  header p { margin: 0; opacity: 0.85; }
+  .preview-banner {
+    background: var(--gold);
+    color: var(--white);
+    text-align: center;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+  section {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  h2 { margin: 0 0 8px; color: var(--moss); font-size: 1.3rem; }
+  p { margin: 0 0 10px; }
+  .note { color: var(--muted); font-size: 0.92rem; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 8px;
+    border-bottom: 1px solid #DDE7E1;
+  }
+  th { color: var(--forest); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  td.rank { width: 48px; font-weight: 700; color: var(--moss); }
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    background: var(--sage);
+    color: var(--moss);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 6px;
+  }
+  .tag.premium { background: var(--gold); color: var(--white); }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 0; }
+  .tabs button {
+    border: 1px solid var(--moss);
+    background: var(--white);
+    color: var(--moss);
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.9rem;
+  }
+  .tabs button.active { background: var(--moss); color: var(--white); }
+  .v2-board {
+    border: 2px dashed var(--moss);
+    background: var(--sage);
+    text-align: center;
+    padding: 28px 20px;
+  }
+  .v2-board strong { color: var(--forest); font-size: 1.1rem; }
+  .btn {
+    display: inline-block;
+    background: var(--moss);
+    color: var(--white);
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  ul { margin: 6px 0 0; padding-left: 20px; }
+  .signup label { display: block; margin: 10px 0; font-size: 0.92rem; color: var(--forest); }
+  .signup input[type="text"], .signup input[type="email"], .signup input[type="url"] {
+    display: block; width: 100%; max-width: 420px; padding: 8px 10px; margin-top: 4px;
+    border: 1px solid #C5D5CB; border-radius: 6px; font: inherit;
+  }
+  .signup label.check { display: flex; gap: 8px; align-items: flex-start; }
+  .signup label.check input { margin-top: 4px; }
+  .signup button { border: none; cursor: pointer; font: inherit; }
+  li { margin-bottom: 6px; }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>MyShoots® League</h1>
+  <p>Clubs compete on self-reported scores from their members. Free to join.</p>
+</header>
+
+<main>
+
+  <section>
+    <h2>Club League — Clay, Season 2026/27</h2>
+    <p class="note"><strong>Example table.</strong> The clubs below are samples to show how the league works. They are not real clubs or real results. Clubs are ranked by the combined totals of rounds their members have logged on the Clay Card. All scores are self-reported and not verified.</p>
+    <div class="tabs" role="tablist" aria-label="League period">
+      <button class="active" type="button">This season</button>
+      <button type="button">This month</button>
+      <button type="button">This week</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Club</th><th>Rounds logged</th><th>Members scoring</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="rank">1</td><td>Sample Club A <span class="tag premium">Premium</span></td><td>48</td><td>12</td></tr>
+        <tr><td class="rank">2</td><td>Sample Club B <span class="tag premium">Premium</span></td><td>37</td><td>9</td></tr>
+        <tr><td class="rank">3</td><td>Sample Club C <span class="tag">League</span></td><td>22</td><td>7</td></tr>
+        <tr><td class="rank">4</td><td>Sample Club D <span class="tag">League</span></td><td>15</td><td>5</td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:12px">Free clubs appear in the table with a plain listing. Premium clubs get a featured spot and their logo beside the table.</p>
+  </section>
+
+  <section>
+    <h2>Join the Club League</h2>
+    <p>Free for any club in our directory. No prizes, no stakes, no entry fee.</p>
+    <ul>
+      <li>Members pick your club on the Clay Card when they save a round, and that round counts toward your club's total.</li>
+      <li>Scores are self-reported and not verified.</li>
+      <li>We approve each club before it appears in the table.</li>
+    </ul>
+    <a class="btn" href="https://forms.gle/4U77t9Xhc9Ak5NLA8" target="_blank" rel="noopener">Request to join the Club League</a>
+    <p class="note" style="margin-top:10px">Opens our join form. We'll be in touch once your club is approved.</p>
+  </section>
+
+  <section>
+    <h2>Shooter league board</h2>
+    <div class="v2-board">
+      <strong>Coming in MyShoots® V2</strong>
+      <p class="note" style="margin:8px 0 0">Individual shooter rankings by discipline and season will be part of MyShoots® Pro in V2.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>League rules</h2>
+    <ul>
+      <li>Free to enter. There are no prizes, stakes or entry fees.</li>
+      <li>All scores are self-reported by members and are not verified or certified. Verification comes with MyShoots® V2.</li>
+      <li>Members choose the club a round counts toward.</li>
+      <li>Open to adults aged 18 and over.</li>
+      <li>Club league tables show club names and combined totals only. No individual shooter names are shown.</li>
+      <li>We may remove a club or a score that breaks these rules.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  MySports Community® Ltd, trading as MyShoots®. 128 City Road, London EC1V 2NX.
+</footer>
+
+<script>
+  // Preview only: switch the active period tab. No data is loaded.
+  document.querySelectorAll('.tabs button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tabs button').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
