@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyShoots® League</title>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="a1a4a2eb-80b8-445d-8cf4-e33c593fe17c" data-domains="clubs.myshoots.io"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --color-primary: #12352B;
+            --color-accent-gold: #C8A84B;
+            --color-accent-scarlet: #C11922;
+            --color-meadow: #E9F5ED;
+            --color-pebble: #998F76;
+            --color-white: #FFFFFF;
+            --color-gray-dark: #333333;
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --font-display: 'Montserrat', sans-serif;
+            --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-meadow);
+            color: var(--color-gray-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation (matches club directory) */
+        nav {
+            background: var(--color-primary);
+            padding: var(--spacing-md) var(--spacing-lg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--color-accent-gold);
+            text-decoration: none;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+        }
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            list-style: none;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+            padding-bottom: 6px;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-links a:hover { color: var(--color-accent-gold); }
+        .nav-links a.active {
+            color: var(--color-accent-gold);
+            border-bottom-color: var(--color-accent-gold);
+        }
+
+        /* Header */
+        header {
+            background: var(--color-white);
+            padding: var(--spacing-xl) var(--spacing-lg);
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-gray-dark);
+            margin-bottom: var(--spacing-sm);
+        }
+        header p {
+            font-size: 1rem;
+            color: var(--color-pebble);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-lg);
+        }
+        section {
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        h2 {
+            font-family: var(--font-display);
+            color: var(--color-primary);
+            font-size: 1.3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        h3 {
+            font-family: var(--font-display);
+            color: var(--color-primary);
+            font-size: 1rem;
+            margin: var(--spacing-md) 0 var(--spacing-xs);
+        }
+        p { margin-bottom: var(--spacing-sm); }
+        .note { color: var(--color-pebble); font-size: 0.92rem; }
+
+        /* Period tabs */
+        .tabs { display: flex; gap: var(--spacing-xs); flex-wrap: wrap; margin: var(--spacing-sm) 0; }
+        .tabs button {
+            font: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            border: 1px solid var(--color-primary);
+            background: var(--color-white);
+            color: var(--color-primary);
+            border-radius: 999px;
+            cursor: pointer;
+        }
+        .tabs button[aria-selected="true"] {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .overflow { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: var(--spacing-sm); }
+        th, td {
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid #DDE7E1;
+        }
+        th {
+            color: var(--color-primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        td.rank { width: 48px; font-weight: 700; color: var(--color-primary); }
+        td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+        .status { font-size: 0.85rem; color: var(--color-pebble); margin-top: var(--spacing-xs); min-height: 1.2em; }
+
+        .btn {
+            display: inline-block;
+            background: var(--color-primary);
+            color: var(--color-white);
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            margin-top: var(--spacing-xs);
+        }
+        .btn:hover { background: #0d1f1c; }
+
+        ul { margin: 6px 0 0; padding-left: 20px; }
+        li { margin-bottom: 6px; }
+
+        .v2-board {
+            border: 2px dashed var(--color-primary);
+            background: var(--color-meadow);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+        }
+        .v2-board strong { color: var(--color-primary); font-size: 1.05rem; }
+
+        /* Legal footer (matches club directory) */
+        .footer-legal{background:#1C2A25;color:#ccc;text-align:center;padding:24px 20px;font-size:11px;letter-spacing:.04em;line-height:1.7;font-family:inherit}
+        .footer-legal p{margin:0}
+        .footer-legal .legal-links{margin-top:8px;font-size:12px}
+        .footer-legal a{color:#ddd;text-decoration:underline}
+        .footer-legal a:hover{color:#C8A84B}
+
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; }
+            .nav-links { justify-content: center; gap: var(--spacing-md); }
+            header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="https://www.myshoots.io" class="logo">MYSHOOTS®</a>
+            <ul class="nav-links">
+                <li><a href="https://www.myshoots.io">Home</a></li>
+                <li><a href="https://calendar.myshoots.io">Calendar</a></li>
+                <li><a href="https://brands.myshoots.io">Brands</a></li>
+                <li><a href="https://clubs.myshoots.io">Clubs</a></li>
+                <li><a href="https://clubs.myshoots.io/league" class="active">League</a></li>
+                <li><a href="https://scorecard.myshoots.io">Clay Card</a></li>
+                <li><a href="https://www.myshoots.io/pro">Founding Pro</a></li>
+                <li><a href="https://partners.myshoots.io">Founding Partners</a></li>
+                <li><a href="mailto:info@myshoots.io">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>MyShoots® League</h1>
+        <p>Clubs compete on their members' combined Clay Card scores. Free to join, bragging rights only.</p>
+    </header>
+
+    <main>
+
+        <section>
+            <h2>Club league table</h2>
+            <p class="note">Clubs are ranked by the total of their members' round scores in the period. The number of members who shot is shown beside each total, so you can see how each club's total was built. A club is ranked once at least three of its members have shot in the period. Individual shooters' names are never shown.</p>
+
+            <div class="tabs" role="tablist" aria-label="League period">
+                <button role="tab" data-period="week" aria-selected="false">This week</button>
+                <button role="tab" data-period="month" aria-selected="false">This month</button>
+                <button role="tab" data-period="season" aria-selected="true">Season</button>
+            </div>
+
+            <div class="overflow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Club</th>
+                            <th class="num">Members shot</th>
+                            <th class="num">Rounds logged</th>
+                            <th class="num">Total score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leagueBody">
+                        <tr><td colspan="5">Results will appear here once clubs start submitting scores.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="status" id="leagueStatus"></p>
+        </section>
+
+        <section>
+            <h2>Score a round on the Clay Card</h2>
+            <p>Score your round on your phone, free, with no sign-up. Choose A MyShoots® League club, pick your club (if your club isn't on the league yet, ask them to request to join), and enter your initials or nickname. The round adds to your club's total in the table.</p>
+            <div style="display:flex;gap:var(--spacing-lg);align-items:center;flex-wrap:wrap;margin-top:var(--spacing-sm)">
+                <img src="data:image/png;base64,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" alt="QR code for the MyShoots® Clay Card at scorecard.myshoots.io" width="180" height="180" style="border-radius:var(--radius-sm)">
+                <div>
+                    <p class="note" style="margin-bottom:var(--spacing-xs)">Scan with your phone, or use the link below.</p>
+                    <a class="btn" href="https://scorecard.myshoots.io" target="_blank" rel="noopener" data-umami-event="clay-card-open">Open the Clay Card</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Join the Club League</h2>
+            <p>Free for any club in our directory. No prizes, no stakes, no entry fee and no betting.</p>
+            <ul>
+                <li>Members choose A MyShoots® League club on the Clay Card, pick your club and enter their initials or nickname, so the round counts toward your club's table.</li>
+                <li>Scores are self-reported and not verified (until v2).</li>
+                <li>We approve each club before it appears in the table.</li>
+            </ul>
+            <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSc-vmet6oqAenabSPxnagsr08ztvGIYITrIxI2pZcXUAx1wGA/viewform" target="_blank" rel="noopener" data-umami-event="league-join-click">Request to join the Club League</a>
+            <p class="note" style="margin-top:10px">Opens our join form. We'll be in touch once your club is approved.</p>
+        </section>
+
+        <section>
+            <h2>League rules</h2>
+            <ul>
+                <li>Free to enter. There are no prizes, stakes, entry fees or betting.</li>
+                <li>Clubs are ranked by the total of their members' round scores in the period.</li>
+                <li>The number of members who shot is shown beside each total.</li>
+                <li>A club is ranked once at least three of its members have shot in the period.</li>
+                <li>Periods are this week, this month and the season. The season runs from 1 January to 31 December.</li>
+                <li>At the end of each season, the club at the top of the season table is named champion.</li>
+                <li>All scores are self-reported by members and are not verified or certified (until v2).</li>
+                <li>Members choose the club a round counts toward.</li>
+                <li>Open to adults aged 18 and over.</li>
+                <li>Club league tables show club names, members who shot and totals only. No individual shooter names are shown.</li>
+                <li>We may remove a club or a score that breaks these rules.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>What's live now and what's coming in v2</h2>
+            <p class="note" style="margin-bottom:var(--spacing-md)">The league is live today and grows with v2. Everything in the first column works now.</p>
+
+            <div class="overflow">
+                <table>
+                    <thead>
+                        <tr><th>Feature</th><th>Live now</th><th>Coming in v2</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Club league table</td><td>Live: totals, members shot, week, month and season</td><td>Matches between clubs, with fixtures each week</td></tr>
+                        <tr><td>Joining the league</td><td>Live: request form, clubs approved by us</td><td>Clubs sign up and manage their own entries</td></tr>
+                        <tr><td>Scoring rounds</td><td>Live: Clay Card, free, no sign-up</td><td>Saved history and accounts for members</td></tr>
+                        <tr><td>Scores</td><td>Self-reported, not verified</td><td>Verified scores and keeper checks</td></tr>
+                        <tr><td>Points and tie-breaks</td><td>Not yet: clubs ranked by total score</td><td>3 for a win, 1 for a draw, 0 for a loss, with a season tie-break</td></tr>
+                        <tr><td>Individual shooter rankings</td><td>Not yet</td><td>By discipline and season, in MyShoots® Pro</td></tr>
+                        <tr><td>Badges and achievements</td><td>Not yet</td><td>Milestones and personal bests in MyShoots® Pro</td></tr>
+                        <tr><td>Event leagues</td><td>Planned for 2027 shows</td><td>Built in, with their own tables and rules</td></tr>
+                        <tr><td>Divisions and promotion</td><td>Not yet</td><td>Once there are enough clubs</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer-legal">
+      <p>MySports Community Ltd · Company No. 15325915 · Registered: 128 City Road, London EC1V 2NX<br>
+      UK TM 00003725185 · US TM 7,500,650 · <span id="footYearClubs"></span></p>
+      <p class="legal-links"><a href="https://clubs.myshoots.io/terms">Terms of Use</a> · <a href="https://clubs.myshoots.io/privacy">Privacy &amp; Cookies</a> · <a href="https://clubs.myshoots.io/terms-of-sale">Terms of Sale</a> · <a href="https://clubs.myshoots.io/acceptable-use">Acceptable Use</a></p>
+    </footer>
+    <script>document.getElementById("footYearClubs").textContent = new Date().getFullYear();</script>
+
+    <script>
+        (function () {
+            // Same web app address the Clay Card uses (it ends in /exec).
+            // Expected rows: { club, member, score, date }, one row per round.
+            //   club   : club name
+            //   member : the member's initials or agreed nickname (never a full name)
+            //   score  : the round total
+            //   date   : the date the round was shot, YYYY-MM-DD
+            const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzBlgk74TpG-b2KPGFpzYCDoPYtKbtUL_ZGMjcFygkmEPiNlrVZDJedt4TBHjV0H35Y/exec';
+            const MIN_MEMBERS = 3;
+
+            const body = document.getElementById('leagueBody');
+            const status = document.getElementById('leagueStatus');
+            const tabs = document.querySelectorAll('.tabs button');
+            let allRows = [];
+            let period = 'season';
+
+            // Example data, shown only until live results arrive. Dated today so every tab shows it.
+            function exampleRows() {
+                const today = new Date().toISOString().slice(0, 10);
+                const sample = [
+                    ['Example Club A', 'AB', 91], ['Example Club A', 'CD', 88], ['Example Club A', 'EF', 94], ['Example Club A', 'GH', 90],
+                    ['Example Club B', 'JS', 85], ['Example Club B', 'MK', 89], ['Example Club B', 'PT', 87],
+                    ['Example Club C', 'LR', 92], ['Example Club C', 'TW', 90]
+                ];
+                return sample.map(function (r) { return { club: r[0], member: r[1], score: r[2], date: today }; });
+            }
+
+            function startOf(p) {
+                const now = new Date();
+                if (p === 'week') {
+                    const d = new Date(now);
+                    const day = (d.getDay() + 6) % 7; // Monday = 0
+                    d.setDate(d.getDate() - day);
+                    d.setHours(0, 0, 0, 0);
+                    return d;
+                }
+                if (p === 'month') return new Date(now.getFullYear(), now.getMonth(), 1);
+                return new Date(now.getFullYear(), 0, 1); // season = calendar year
+            }
+
+            function inPeriod(row, p) {
+                if (!row.date) return p === 'season';
+                const d = new Date(row.date + 'T00:00:00');
+                return !isNaN(d) && d >= startOf(p);
+            }
+
+            function render() {
+                const rows = allRows.filter(function (r) { return inPeriod(r, period); });
+                const clubs = {};
+                rows.forEach(function (r) {
+                    const name = String(r.club || '').trim();
+                    const score = Number(r.score);
+                    if (!name || !isFinite(score) || score < 0) return;
+                    const c = clubs[name] || (clubs[name] = { name: name, members: {}, rounds: 0, total: 0 });
+                    c.rounds += 1;
+                    c.total += score;
+                    const m = String(r.member || '').trim().toLowerCase();
+                    if (m) c.members[m] = true;
+                });
+
+                const list = Object.keys(clubs).map(function (k) {
+                    const c = clubs[k];
+                    c.memberCount = Object.keys(c.members).length || 0;
+                    return c;
+                });
+
+                list.sort(function (a, b) {
+                    const qa = a.memberCount >= MIN_MEMBERS, qb = b.memberCount >= MIN_MEMBERS;
+                    return (qb - qa) || (b.total - a.total) || (b.memberCount - a.memberCount);
+                });
+
+                body.textContent = '';
+                if (!list.length) {
+                    body.innerHTML = '<tr><td colspan="5">No results for this period yet.</td></tr>';
+                    return;
+                }
+
+                let rank = 0;
+                list.forEach(function (c) {
+                    const ranked = c.memberCount >= MIN_MEMBERS;
+                    const tr = document.createElement('tr');
+
+                    const tdRank = document.createElement('td');
+                    tdRank.className = 'rank';
+                    if (ranked) { rank += 1; tdRank.textContent = rank; }
+                    else { tdRank.textContent = '–'; }
+
+                    const tdName = document.createElement('td');
+                    tdName.textContent = c.name + (ranked ? '' : ' (not yet ranked)');
+
+                    const tdMembers = document.createElement('td');
+                    tdMembers.className = 'num';
+                    tdMembers.textContent = c.memberCount;
+
+                    const tdRounds = document.createElement('td');
+                    tdRounds.className = 'num';
+                    tdRounds.textContent = c.rounds;
+
+                    const tdTotal = document.createElement('td');
+                    tdTotal.className = 'num';
+                    tdTotal.textContent = c.total;
+
+                    [tdRank, tdName, tdMembers, tdRounds, tdTotal].forEach(function (td) { tr.appendChild(td); });
+                    body.appendChild(tr);
+                });
+            }
+
+            tabs.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    period = btn.getAttribute('data-period');
+                    tabs.forEach(function (b) { b.setAttribute('aria-selected', b === btn ? 'true' : 'false'); });
+                    render();
+                });
+            });
+
+            fetch(ENDPOINT + '?type=league')
+                .then(function (r) { return r.json(); })
+                .then(function (rows) {
+                    if (Array.isArray(rows) && rows.length) {
+                        allRows = rows;
+                        status.textContent = 'Updated ' + new Date().toLocaleDateString('en-GB');
+                    } else {
+                        allRows = exampleRows();
+                        status.textContent = 'Example results shown. Live results will appear once clubs start submitting scores.';
+                    }
+                    render();
+                })
+                .catch(function () {
+                    allRows = exampleRows();
+                    status.textContent = 'Example results shown. Live results are unavailable until clubs join the league.';
+                    render();
+                });
+        })();
+    </script>
+</body>
+</html>
